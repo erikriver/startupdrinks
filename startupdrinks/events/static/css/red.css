@@ -1,0 +1,26 @@
+h1, h2, h3, h4 {
+	color: #e1332c;
+}
+
+#defaultCountdown {
+	color: #e1332c;
+}
+
+.button_1 {
+	background: url(../images/call-to-action-1-red.png) no-repeat;
+}
+.button_2 {
+	background: url(../images/call-to-action-2-red.png) no-repeat;
+}
+.button_1 a {
+	color: #170606;
+	text-shadow: 0px 1px 0px #e80000;
+}
+.button_2 a {
+	color: #170606;
+	text-shadow: 0px 1px 0px #e80000;
+}
+
+h1.highlight {
+    color: #e1332c;
+}

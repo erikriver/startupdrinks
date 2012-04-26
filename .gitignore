@@ -1,0 +1,9 @@
+.DS_Store
+*.db
+*.egg-info/
+build/
+dist/
+*.pyc
+startupdrinks/media
+startupdrinks/static
+user.json

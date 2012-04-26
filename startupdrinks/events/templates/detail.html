@@ -1,0 +1,344 @@
+{% load thumbnail %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="description" content="StartupDrinks Mexico" />
+<meta name="keywords" content="event, meetings, emprendimiento, empresarios, startup" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{{ event.name }}</title>
+<link rel="stylesheet" media="screen" href="{{ STATIC_URL }}css/reset.css"/>
+<link rel="stylesheet" media="screen" href="{{ STATIC_URL }}css/style.css"/>
+<link rel="stylesheet" media="screen" href="{{ STATIC_URL }}css/nivo-slider.css"/>
+<link rel="stylesheet" media="screen" href="{{ STATIC_URL }}css/{{ site_settings.theme }}.css"/>
+<script src="{{ STATIC_URL }}js/jquery-1.4.4.min.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/jquery.cycle.all.min.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/jquery.nivo.slider.pack.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/countdown.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/cufon-yui.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/Qlassik_Bold_700.font.js" type="text/javascript"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+<!--[if IE 7]>
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ie7_fix.css">
+<![endif]-->
+<script>
+    Cufon.replace('h1,h2,h3,h4,#header p');  
+    Cufon.replace('.button_1 a,.button_2 a'); 
+
+    //Countdown
+    $(function () {
+    	jQuery('#defaultCountdown').countdown({
+    	until: new Date({{ event.start|date:"Y, n - 1, j, g, i" }}), 
+    	format: 'DHMS',
+    	layout: '<div id="vals">'+
+    	                            '<div id="to_go" class="numbers">faltan </div>'+
+    				                '<div id="d" class="numbers">{dnn}</div>'+
+    								'<div id="h_name" class="numbers">dias </div>'+
+    								'<div id="h" class="numbers">{hnn}</div>'+
+    								'<div id="h_name" class="numbers">horas </div>'+
+    								'<div id="m" class="numbers">{mnn}</div>'+
+    								'<div id="m_name" class="numbers">minutos</div>'+
+    								'<div id="s" class="numbers">{snn}</div>'+
+    								'<div id="s_name" class="numbers">segundos</div>'+
+    							    '</div>'
+    });
+    	Cufon.replace('#defaultCountdown', { fontFamily: 'Qlassik Bold'});   // this will replace everything in the defaultCountdown div with your font	
+    });
+
+    $(document).ready(function() {
+
+    //Nivo slider
+    $('#slider').nivoSlider({
+            effect:'random', // Specify sets like: 'fold,fade,sliceDown'
+            slices:15, // For slice animations
+            boxCols: 8, // For box animations
+            boxRows: 4, // For box animations
+            animSpeed:500, // Slide transition speed
+            pauseTime:3000, // How long each slide will show
+    		pauseOnHover:true,
+            directionNav:true, // Next & Prev navigation
+            directionNavHide:true, // Only show on hover
+            controlNav:false // 1,2,3... navigation
+    });
+
+    //On Hover Event for social, speaker_social, partner image 
+    $('#footer li a img,ul.speaker_social li a img,.partners img').hover(function(){
+    			$(this).animate({opacity: 0.6}, 300);
+    		}, function () {
+    			$(this).animate({opacity: 1}, 300);
+    });
+
+    //Styling to table row
+    $('tr:nth-child(even)').addClass('alt');
+
+    //Cycle plugin for testimonial 
+    $('.testimonial').cycle({
+    		fx: 'fade', // choose your transition type, ex: fade, scrollUp, scrollLeft etc... 
+       		speed: 1000,
+    		timeout: 4000,  // milliseconds between slide transitions (0 to disable auto advance)
+    		cleartypeNoBg:   true, // set to true to disable extra cleartype fixing (leave false to force background color setting on slides)
+    		cleartype:!$.support.opacity,  // true if clearType corrections should be applied (for IE) 
+    		pause:  1
+    });
+
+    });
+    
+    function initialize() {
+        var latlng = new google.maps.LatLng({{ event.place.geolocation.lat }},{{ event.place.geolocation.lon }});
+        var myOptions = {
+          zoom: 16,
+          center: latlng,
+          mapTypeControl: false,
+          scaleControl: false,
+          mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+          navigationControl: false,
+          draggable: true,
+          scrollwheel: false,
+          disableDoubleClickZoom: true,	
+          navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+          mapTypeId: google.maps.MapTypeId.ROADMAP        
+      };
+      var map = new google.maps.Map(document.getElementById("map_canvas"),
+          myOptions);
+          
+          
+          var companyLogo = new google.maps.MarkerImage('{{ STATIC_URL }}images/mapa-marcador.png',
+                  new google.maps.Size(120,40),
+                  new google.maps.Point(0,0),
+                  new google.maps.Point(63,-38)
+              );
+              var companyShadow = new google.maps.MarkerImage('{{ STATIC_URL }}images/mapa-hotspot.png',
+                  new google.maps.Size(25,25),
+                  new google.maps.Point(0,0),
+                  new google.maps.Point(15,-75)
+              );
+              var companyPos = new google.maps.LatLng({{ event.place.geolocation.lat }},{{ event.place.geolocation.lon }});
+              var companyMarker = new google.maps.Marker({
+                  position: companyPos,
+                  map: map,
+                  icon: companyLogo,
+                  shadow: companyShadow,
+                  title:"StartupDrinks"
+              });
+              
+    }
+    
+</script>
+</head>
+<body onload="initialize()">
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1&appId=114999608628806";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>    
+    
+<!--header starts-->
+<div id="header"> 
+    {% thumbnail site_settings.logo "235x200" format="PNG" as im %}
+        <img src="{{ im.url }}" alt="{{ site_settings.name }}" class="logo">
+    {% endthumbnail %}
+    
+  <div style="float:right; margin-top:10px;" class="fb-like" data-href="{{ site_settings.fb_page }}" data-send="false" data-layout="box_count" data-width="150" data-show-faces="true"></div>
+  <div class="clear"></div>
+</div>
+<!--header ends-->
+
+<div class="divider_header"></div>
+
+<!--content_bg starts-->
+<div id="content_bg">
+  <div id="content">       
+    <div id="content_1">
+        <div id="show">
+          <div id="slider" class="nivoSlider"> 
+            {% for silde in photos %}
+              {% thumbnail silde.image "470x320" crop="center" as im %}
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+              {% endthumbnail %}
+            {% endfor %}
+          </div>
+          <!--slider ends--> 
+        </div>
+        
+      <div class="clear"></div>
+    </div>
+    <!--content_1 ends--> 
+    
+    <!--content_2 starts-->
+    <div id="content_2">
+        <div style="text-align: center;">
+        <h1 class="highlight">{{ event.start|date:"l d F - f a" }}</h1>    
+        <div id="defaultCountdown" class="countdown"></div>
+        </div>
+        <!--countdown here-->
+        <div class="clear"></div>
+      <br />
+      <h2>¿Que es StartupDrinks?</h2>
+      <p class="medium">Es una reunión mensual realizada en bares por la comunidad emprendedora. No hay agenda ni protocolos formales.
+      Un concepto simple: la comunidad emprendedora poblana se reúne en un bar para tomar una cerveza, platicar sus proyectos, en qué andan y cómo pueden ayudarse entre ellos.</p>
+      <br>
+      <h2>¿Quienes Asisten?</h2>
+      <p class="medium">Emprendedores actuales o potenciales, nuevos o consolidados, de todo tipo de proyecto y edad. Mentores, inversionistas y aliados estratégicos</p>
+
+      <div class="clear"></div>
+    </div>
+    <!--content_2 ends-->
+    
+    
+    
+    <div class="clear"></div>
+    <!--buttons here-->
+    <div id="button_wrapper">
+      <div class="button_1"><a href="#">Registrate al Evento</a></div>
+      <div class="button_2"><a href="#">Lista de Participantes</a></div>
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+<!--content_bg ends--> 
+
+<!--three_columns_bg starts-->
+<div id="three_columns_bg">
+  <div id="three_columns"> 
+    
+    <!--column_1 starts-->
+    <div class="column_1">
+      <h2>Organizan</h2>
+      <ul class="speaker">
+        <li><img src="{{ STATIC_URL }}images/logo_avm.png" width="105" height="120" alt="speaker photo" class="photo"/>
+          <p>Angel Ventures México, opera redes de inversionistas ángeles en el país. Enlaza grandes ideas con capital.</p>
+           <!--<h4>John Doe, CEO, Lorem Inc.</h4> -->
+          <ul class="speaker_social">
+            <li><a href="#"><img src="{{ STATIC_URL }}images/twitter.png" width="16" height="16" alt="speaker social" /></a></li>
+            <li><a href="#"><img src="{{ STATIC_URL }}images/facebook.png" width="16" height="16" alt="speaker social" /></a></li>
+          </ul>
+        </li>
+        <li><img src="{{ STATIC_URL }}images/logo-endeavorpuebla.png" width="105" height="120" alt="speaker photo" class="photo"/>
+          <p>Endeavor lidera un movimiento global para detonar un mayor crecimiento económico. Selecciona, acelera y promueve a los mejores emprendedores de alto impacto del mundo.</p>
+          <!--<h4>Jorge Doe, CEO, Dolor Inc.</h4>-->
+          <ul class="speaker_social">
+            <li><a href="#"><img src="{{ STATIC_URL }}images/twitter.png" width="16" height="16" alt="speaker social" /></a></li>
+            <li><a href="#"><img src="{{ STATIC_URL }}images/facebook.png" width="16" height="16" alt="speaker social" /></a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <!--column_1 ends--> 
+    
+    <!--column_1 starts-->
+    <div class="column_1">
+      <h2>Ubicación</h2>
+      {% thumbnail event.place.image "100x100" crop="center" as im %}
+          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="venue_logo">
+      {% endthumbnail %}
+      <div class="divider_vert"></div>
+      <p>{{ event.place.address }}</p>
+      <div class="clear"></div>
+      
+      <div class="whiteframe" id="map_canvas" style="width:300px; height:195px"></div>
+      </div>
+    <!--column_1 ends--> 
+    
+    <!--column_2 starts-->
+    <div class="column_2">
+      <h2>Twitter</h2>
+      <script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
+                  <script>
+                  new TWTR.Widget({
+                    version: 2,
+                    type: 'search',
+                    search: '{{ site_settings.twitter_ht }}',
+                    interval: 30000,
+                    title: '',
+                    subject: '{{ site_settings.twitter_ht }}',
+                    width: 290,
+                    height: 250,
+                    theme: {
+                      shell: {
+                        background: '#ffffff',
+                        color: '#603815'
+                      },
+                      tweets: {
+                        background: '#ffffff',
+                        color: '#444444',
+                        links: '#1985b5'
+                      }
+                    },
+                    features: {
+                      scrollbar: false,
+                      loop: true,
+                      live: true,
+                      behavior: 'default'
+                    }
+                  }).render().start();
+                  </script>
+    </div>
+    <!--column_2 ends-->
+    
+    <div class="clear"></div>
+  </div>
+</div>
+<!--three_columns_bg ends--> 
+
+<!--footer_bg starts-->
+<div id="footer_bg">
+  <div id="footer">
+    <h3>Patrocinadores de esta edición</h3>
+    <!--partners starts-->
+    <div class="partners" style="text-align: center;" > 
+        
+        {% for sponsor in sponsors %}
+          {% thumbnail sponsor.image "200x200" format="PNG" as im %}
+            <a href="{{ sponsor.link }}" target="blank" ><img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ sponsor.name }}"></a>
+          {% endthumbnail %}
+        {% endfor %}        
+    </div>
+    <!--partners ends-->
+    <div class="clear"></div>
+    
+    <!--testimonial starts-->
+    <div class="testimonial"> 
+        {% for testimonial in testimonials %}
+        <div>
+        <p>" {{ testimonial.text }} "</p>
+        <span>{{ testimonial.author }}</span> 
+        </div>
+        {% endfor %}
+    </div>
+    <!--testimonial ends-->
+    
+    <div class="clear"></div>
+  </div>
+</div>
+<!--footer_bg ends-->
+
+<div class="divider_footer"></div>
+
+<!--footer_bottom starts-->
+<div id="footer_bottom"> 
+  
+  <!--footer_links starts-->
+  <div class="footer_links">
+    <ul>
+      <li><a href="#" title="twitter"><img src="{{ STATIC_URL }}images/twitter.png" width="16" height="16" alt="twitter" /></a></li>
+      <li><a href="#" title="facebook"><img src="{{ STATIC_URL }}images/facebook.png" width="16" height="16" alt="facebook" /></a></li>
+      <li><a href="#" title="flickr"><img src="{{ STATIC_URL }}images/flickr.png" width="16" height="16" alt="flickr" /></a></li>
+    </ul>
+    <p><a href="#">© copyright 2012 startupdrinks.mx</a></p>
+  </div>
+  <!--footer_links ends--> 
+  
+  <!--subscribe starts-->
+  <div class="subscribe">
+  </div>
+  <!--subscribe ends-->
+  
+  <div class="clear"></div>
+</div>
+<!--footer_bottom ends-->
+
+</body>
+</html>
