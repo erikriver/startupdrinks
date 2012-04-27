@@ -39,6 +39,7 @@ class PlacesAdmin(admin.ModelAdmin):
 admin.site.register(SiteSettings)
 admin.site.register(Organizer)
 admin.site.register(Testimonial)
+admin.site.register(Profile)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Places, PlacesAdmin)
 

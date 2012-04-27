@@ -392,3 +392,69 @@ p.medium {
     border: 3px solid white;
     margin-left: -3px;
 }
+
+
+/*----------subscribe----------*/
+.subscribe {
+	width: 310px;
+	float: right;
+	position: relative;
+}
+/*subscribe form*/
+form#subform fieldset {
+	border: none;
+	background: none;
+}
+form#subform fieldset p {
+	background: none;
+	padding: 0;
+	margin: 0;
+	display: block;
+}
+form#subform input {
+	background: url(../images/subscribe-input-fld.jpg) no-repeat;
+	width: 211px;
+	height: 25px;
+	padding: 5px;
+	font-family: Arial, Trebuchet MS, Verdana, sans-serif;
+	font-size: 12px;
+	color: #787878;
+	line-height: 2em;
+	outline: none;
+	border: none;
+	float: left;
+}
+form#subform input.submit {
+	width: 89px;
+	height: 35px;
+	background: url(../images/signup-btn.png) no-repeat;
+	padding: 0;
+	margin: 0;
+	text-indent: -9999px;
+	float: left;
+	font-size: 0;
+	line-height: 0;
+	border: none;
+	cursor: pointer;
+	outline: none;
+	display: block;
+}
+/*position of error is relative to "suscribe" div*/
+form#subform label.error {
+	position: absolute;
+	top: 35px;
+	left: 0;
+	color: #c52c02;
+	font-style: italic;
+	font-size: 11px;
+	text-align: left;
+	margin: 0;
+	padding: 0;
+}
+form#subform #result_sub {
+	width: 310px;
+	height: 15px;
+	font-size: 12px;
+	text-align: left;
+	float: left;
+}

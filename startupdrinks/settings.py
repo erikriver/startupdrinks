@@ -133,6 +133,7 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'django_google_maps',
     'django_hosts',
+    'social_auth',
 )
 
 LOGGING = {
@@ -161,4 +162,35 @@ LOGGING = {
 
 
 GRAPPELLI_ADMIN_TITLE = "Startup Drinks"
+AUTH_PROFILE_MODULE = 'events.Profile'
 
+#Social Auth
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+    'social_auth.backends.contrib.linkedin.LinkedinBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# Add your Facebook API keys here
+FACEBOOK_APP_ID = '114999608628806'
+FACEBOOK_API_SECRET = '54e7441d3f4a2f104ef625a4d75b57fe'
+FACEBOOK_EXTENDED_PERMISSIONS = ['email']
+
+# Add your Twitter API keys here
+TWITTER_CONSUMER_KEY = 'oFsTkBMwlhe85XwYvHYNrQ'
+TWITTER_CONSUMER_SECRET = 'PvMGHEGUYj27GWpkIIEcJfdiS2f471LSBXGu3QfMrUA'
+
+# Add your LinkedIn API keys here
+LINKEDIN_CONSUMER_KEY = 'j8m4gleb5uh6'
+LINKEDIN_CONSUMER_SECRET = 'egVq76QcRxCmJZGM'
+
+LOGIN_URL          = '/login/'
+LOGIN_REDIRECT_URL = '/'
+#LOGIN_ERROR_URL    = '/login-error/'
+#SOCIAL_AUTH_USERNAME_FIXER = lambda u: slugify(u)
+
+#SOCIAL_AUTH_CREATE_USERS = False
+
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/update'

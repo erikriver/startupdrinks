@@ -1,0 +1,24 @@
+
+<table>
+    <th>
+        <td>Red</td>
+        <td>Nombre</td>
+        <td>Descripción</td>
+    </th>
+    <tbody>
+    {% for profile  in object_list %}
+    <tr class="{% cycle 'alt' 'alt2' %}">
+        <td>
+            {{ profile.network }}
+        </td>
+        <td>
+            {{ profile.fullname }}
+        </td>
+        <td>
+            {{ profile.bio }}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+

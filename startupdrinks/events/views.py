@@ -1,7 +1,15 @@
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render_to_response, redirect, render
+from django.core.urlresolvers import reverse
+from django.contrib.auth import logout
+
 from django.views.generic import ListView, DetailView, TemplateView, CreateView
 
+from social_auth.signals import pre_update
+
 from .models import *
+from .forms import *
 
 class EventDetail(DetailView):
     model = Event
@@ -27,5 +35,74 @@ class EventDetail(DetailView):
         return context
     
 class EventUserList(ListView):
-    model = Profile
+    template_name = "list.html"
+    
+    def get_queryset(self):
+        host = self.request.get_host()
+        site = get_object_or_404(Site, domain__iexact=host)
+        events = list(Event.objects.filter(active=True, site=site)[:1])
+        if events:
+            event = events[0]
+            return event.attendees.all()
+    
+def user_update(sender, user, response, details, **kwargs):
+    network = sender.name
+    profile, created = Profile.objects.get_or_create(user=user)
+    profile.fullname = details['fullname']
+    profile.network_id = response['id']
+    profile.network = network
+    
+    if network == 'facebook':
+        profile.network_url = response['link']
+        profile.photo_url = 'https://graph.facebook.com/'+response['id']+'/picture'
+    
+    if network == 'twitter':
+        profile.network_url = 'https://twitter.com/#!/'+response['screen_name']
+        profile.photo_url = response['profile_image_url']    
+        
+    if not user.email:
+        user.email = details['email']
+    
+    user.save()
+    profile.save()
+    return True
 
+pre_update.connect(user_update)
+
+
+#@login_required
+def update(request, template_name="update.html"):
+
+    profile = request.user.get_profile()
+    data = {
+        'email':    profile.user.email,
+        'fullname': profile.fullname,
+        'bio':      profile.bio
+    }
+    print "email",profile.user.email
+    form = UserForm(request.POST or None, initial=data)
+
+    if request.method == 'POST':
+        if form.is_valid():
+
+            profile.user.email = form.cleaned_data.get('email')
+
+            profile.fullname = form.cleaned_data.get('fullname')
+            profile.bio = form.cleaned_data.get('bio')
+            
+            host = request.get_host()
+            site = get_object_or_404(Site, domain__iexact=host)
+            events = list(Event.objects.filter(active=True, site=site)[:1])
+            profile.site = site
+            
+            profile.user.save()
+            profile.save()
+            
+            if events:
+                event = events[0]
+                event.attendees.add(profile.user)
+            
+            logout(request)
+            return HttpResponseRedirect('/')
+
+    return render(request, template_name, {"form": form,})

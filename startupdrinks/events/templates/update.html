@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="description" content="StartupDrinks Mexico" />
+<meta name="keywords" content="event, meetings, emprendimiento, empresarios, startup" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{{ event.name }}</title>
+<link rel="stylesheet" media="screen" href="{{ STATIC_URL }}css/reset.css"/>
+<link rel="stylesheet" media="screen" href="{{ STATIC_URL }}css/style.css"/>
+<link rel="stylesheet" media="screen" href="{{ STATIC_URL }}css/zocial.css"/>
+<link rel="stylesheet" media="screen" href="{{ STATIC_URL }}css/{{ site_settings.theme }}.css"/>
+<script src="{{ STATIC_URL }}js/jquery-1.4.4.min.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/cufon-yui.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/Qlassik_Bold_700.font.js" type="text/javascript"></script>
+
+<!--[if IE 7]>
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ie7_fix.css">
+<![endif]-->
+</head>
+<body>
+
+<h1>Información para conocerte</h1>
+
+<form action="{% url update %}" method="post">{% csrf_token %}
+    {{ form.non_field_errors }}
+    <fieldset>
+    <div class="clearfix">
+        <label for="xlInput">Nombre Completo</label>
+        <div class="input">
+            {{ form.fullname.errors }}
+            {{ form.fullname }}
+        </div>
+    </div>
+    <div class="clearfix">
+        <label for="xlInput">Email</label>
+        <div class="input">
+            {{ form.email.errors }}
+            {{ form.email }}
+        </div>
+    </div>
+    <div class="clearfix">
+        <label for="xlInput">Resumen</label>
+        <div class="input">
+            {{ form.bio.errors }}
+            {{ form.bio }}
+            <span class="help-inline">Explique a los participantes algo de usted y sus intereses en el evento</span>
+        </div>
+    </div>
+
+    <div class="actions">
+        <input type="submit" class="btn primary" value="Save changes">
+    </div>
+    </fieldset>
+</form>
+
+</body>
+</html>

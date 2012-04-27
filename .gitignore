@@ -6,4 +6,5 @@ dist/
 *.pyc
 startupdrinks/media
 startupdrinks/static
-user.json
+*.json
+*.bak

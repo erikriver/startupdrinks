@@ -35,8 +35,12 @@ class Profile(models.Model):
     user = models.OneToOneField(User)
     fullname = models.CharField(_('Full name'), max_length=100, null=True, blank=True)
     bio = models.TextField(_('Description'), blank=True)
+    network = models.CharField(max_length=255, blank=True, null=True)
+    network_id = models.CharField(max_length=255, blank=True, null=True)
+    network_url = models.CharField(max_length=255, blank=True, null=True)
+    photo_url = models.CharField(max_length=255, blank=True, null=True)
     organizer = models.BooleanField(_('Organizador'))
-    site = models.ForeignKey(Site)
+    site = models.ForeignKey(Site, default=1,blank=True)
     
     class Meta:
         verbose_name = _("Profile")
