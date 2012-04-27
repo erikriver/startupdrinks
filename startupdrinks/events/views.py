@@ -100,7 +100,7 @@ def update(request, template_name="update.html"):
             
             if events:
                 event = events[0]
-                event.attendees.add(profile.user)
+                event.attendees.add(profile)
             
             logout(request)
             return HttpResponseRedirect('/')

@@ -115,7 +115,7 @@ class Event(models.Model):
     end     = models.DateTimeField(_('Fin'))
     open    = models.BooleanField(_('Abierto'))
     active  = models.BooleanField(_('Activo'))
-    attendees = models.ManyToManyField(User, blank=True, null=True, related_name='attend_events')
+    attendees = models.ManyToManyField(Profile, blank=True, null=True, related_name='attend_events')
     site    = models.ForeignKey(Site)
         
     class Meta:
