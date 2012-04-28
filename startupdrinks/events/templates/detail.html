@@ -32,7 +32,7 @@
     //Countdown
     $(function () {
     	jQuery('#defaultCountdown').countdown({
-    	until: new Date({{ event.start|date:"Y, n - 1, j, g, i" }}), 
+    	until: new Date({{ event.start|date:"Y, n, j, g, i" }}), 
     	format: 'DHMS',
     	layout: '<div id="vals">'+
     	                            '<div id="to_go" class="numbers">faltan </div>'+
@@ -60,7 +60,7 @@
             boxCols: 8, // For box animations
             boxRows: 4, // For box animations
             animSpeed:500, // Slide transition speed
-            pauseTime:3000, // How long each slide will show
+            pauseTime:5000, // How long each slide will show
     		pauseOnHover:true,
             directionNav:true, // Next & Prev navigation
             directionNavHide:true, // Only show on hover
@@ -73,9 +73,6 @@
     		}, function () {
     			$(this).animate({opacity: 1}, 300);
     });
-
-    //Styling to table row
-    $('tr:nth-child(even)').addClass('alt');
 
     //Cycle plugin for testimonial 
     $('.testimonial').cycle({
@@ -199,7 +196,7 @@
     <!--buttons here-->
     <div id="button_wrapper">
       <div class="button_1"><a href="/register" rel="facebox">Registrate al Evento</a></div>
-      <div class="button_2"><a href="/list" rel="facebox">Lista de Participantes</a></div>
+      <div class="button_2"><a href="/list">Lista de Participantes</a></div>
       <div class="clear"></div>
     </div>
     <div class="clear"></div>
@@ -238,7 +235,7 @@
     <!--column_1 starts-->
     <div class="column_1">
       <h2>Ubicación</h2>
-      {% thumbnail event.place.image "100x100" crop="center" as im %}
+      {% thumbnail event.place.image "100x80" crop="center" as im %}
           <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="venue_logo">
       {% endthumbnail %}
       <div class="divider_vert"></div>
@@ -298,7 +295,7 @@
     <div class="partners" style="text-align: center;" > 
         
         {% for sponsor in sponsors %}
-          {% thumbnail sponsor.image "200x200" format="PNG" as im %}
+          {% thumbnail sponsor.image "300x200" format="PNG" as im %}
             <a href="{{ sponsor.link }}" target="blank" ><img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ sponsor.name }}"></a>
           {% endthumbnail %}
         {% endfor %}        
@@ -330,8 +327,8 @@
   <!--footer_links starts-->
   <div class="footer_links">
     <ul>
-      <li><a href="#" title="twitter"><img src="{{ STATIC_URL }}images/twitter.png" width="16" height="16" alt="twitter" /></a></li>
-      <li><a href="#" title="facebook"><img src="{{ STATIC_URL }}images/facebook.png" width="16" height="16" alt="facebook" /></a></li>
+      <li><a href="https://twitter.com/{{ site_settings.twitter_user }}" title="twitter"><img src="{{ STATIC_URL }}images/twitter.png" width="16" height="16" alt="twitter" /></a></li>
+      <li><a href="{{ site_settings.fb_page }}" title="facebook"><img src="{{ STATIC_URL }}images/facebook.png" width="16" height="16" alt="facebook" /></a></li>
       <li><a href="#" title="flickr"><img src="{{ STATIC_URL }}images/flickr.png" width="16" height="16" alt="flickr" /></a></li>
     </ul>
     <p><a href="#">© copyright 2012 startupdrinks.mx</a></p>

@@ -19,6 +19,7 @@ class SiteSettings(models.Model):
     logo    = ImageField(upload_to='logos', blank=True)
     fb_user = models.URLField(blank=True)
     fb_page = models.URLField(blank=True)
+    #flickr_page = models.URLField(blank=True)
     twitter_user = models.CharField(_('Twitter User'), max_length=50, blank=True, null=True)
     twitter_ht   = models.CharField(_('Twitter Hashtag'), max_length=50, blank=True, null=True)
     theme   = models.CharField(_('Theme'), max_length=50, choices=THEME_CHOICES, default='brown')
