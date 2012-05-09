@@ -84,9 +84,12 @@ def update(request, template_name="update.html"):
         'fullname': profile.fullname,
         'bio':      profile.bio
     }
-    print "email",profile.user.email
-    form = UserForm(request.POST or None, initial=data)
 
+    form = UserForm(request.POST or None, initial=data)
+    
+    host = request.get_host()
+    site = get_object_or_404(Site, domain__iexact=host)
+    
     if request.method == 'POST':
         if form.is_valid():
 
@@ -96,8 +99,6 @@ def update(request, template_name="update.html"):
             profile.kind = form.cleaned_data.get('kind')
             profile.bio = form.cleaned_data.get('bio')
             
-            host = request.get_host()
-            site = get_object_or_404(Site, domain__iexact=host)
             events = list(Event.objects.filter(active=True, site=site)[:1])
             profile.site = site
             
