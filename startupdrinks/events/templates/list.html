@@ -7,6 +7,7 @@
 <table>
     <tr>
         <td>Red</td>
+        <td>Foto</td>
         <td>Nombre</td>
         <td>Perfil</td>
         <td>Descripción</td>
@@ -15,7 +16,10 @@
     {% for profile  in object_list %}
     <tr class="{% cycle 'alt' 'alt2' %}">
         <td>
-            {{ profile.network }}
+            <img src="{{ STATIC_URL }}images/{{ profile.network }}-64.png" height="32" width="32" />
+        </td>
+        <td>
+            <img src="{{ profile.photo_url }}" height="48" width="48" />
         </td>
         <td>
             {{ profile.kind }}
