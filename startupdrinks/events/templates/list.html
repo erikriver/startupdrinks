@@ -1,15 +1,21 @@
+{% extends "base.html" %}
 
+{% block body %}
 <table>
-    <th>
+    <tr>
         <td>Red</td>
         <td>Nombre</td>
+        <td>Perfil</td>
         <td>Descripción</td>
-    </th>
+    </tr>
     <tbody>
     {% for profile  in object_list %}
     <tr class="{% cycle 'alt' 'alt2' %}">
         <td>
             {{ profile.network }}
+        </td>
+        <td>
+            {{ profile.kind }}
         </td>
         <td>
             {{ profile.fullname }}
@@ -21,4 +27,5 @@
     {% endfor %}
     </tbody>
 </table>
+{% endblock %}
 

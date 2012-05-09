@@ -31,11 +31,23 @@ class SiteSettings(models.Model):
         
     def __unicode__(self):
         return u"%s" % self.name
+
+KIND_CHOICES = (
+        ('entrepreneur',_('Emrpendedor')),
+        ('startup',     _('Startup')),
+        ('geek',        _('Geek')),
+        ('coach',       _('Coach/Mentor')),
+        ('investor',    _('Inversionista')),
+        ('gossip',      _('Chismoso')),
+        ('joker',       _('Comodin')),
+)
     
 class Profile(models.Model):
+    
     user = models.OneToOneField(User)
     fullname = models.CharField(_('Full name'), max_length=100, null=True, blank=True)
     bio = models.TextField(_('Description'), blank=True)
+    kind   = models.CharField(_('Profile'), max_length=50, choices=KIND_CHOICES, default='entrepreneur')
     network = models.CharField(max_length=255, blank=True, null=True)
     network_id = models.CharField(max_length=255, blank=True, null=True)
     network_url = models.CharField(max_length=255, blank=True, null=True)

@@ -88,6 +88,7 @@ def update(request, template_name="update.html"):
             profile.user.email = form.cleaned_data.get('email')
 
             profile.fullname = form.cleaned_data.get('fullname')
+            profile.kind = form.cleaned_data.get('kind')
             profile.bio = form.cleaned_data.get('bio')
             
             host = request.get_host()
@@ -101,6 +102,10 @@ def update(request, template_name="update.html"):
             if events:
                 event = events[0]
                 event.attendees.add(profile)
+                
+                #verificar si es actializacion o nuevo registro
+                activity = AttendActivity.objects.create(actor=profile.user, action='registered', target=event)
+                activity.save()
             
             logout(request)
             return HttpResponseRedirect('/')
