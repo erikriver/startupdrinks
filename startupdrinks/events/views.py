@@ -39,11 +39,16 @@ class EventUserList(ListView):
     
     def get_queryset(self):
         host = self.request.get_host()
-        site = get_object_or_404(Site, domain__iexact=host)
-        events = list(Event.objects.filter(active=True, site=site)[:1])
+        self.site = get_object_or_404(Site, domain__iexact=host)
+        events = list(Event.objects.filter(active=True, site=self.site)[:1])
         if events:
             event = events[0]
             return event.attendees.all()
+            
+    def get_context_data(self, **kwargs):
+        context = super(EventUserList, self).get_context_data(**kwargs)
+        context['site_settings'] = self.site.sitesettings
+        return context
     
 def user_update(sender, user, response, details, **kwargs):
     network = sender.name
@@ -110,4 +115,5 @@ def update(request, template_name="update.html"):
             logout(request)
             return HttpResponseRedirect('/')
 
-    return render(request, template_name, {"form": form,})
+    return render(request, template_name, {"form": form,"site_settings": site.sitesettings })
+    
