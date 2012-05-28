@@ -9,4 +9,5 @@ class UserForm(forms.Form):
     email = forms.EmailField(required=True)
     kind = forms.ChoiceField(widget=forms.Select, choices=KIND_CHOICES)
     bio = forms.CharField(widget=forms.Textarea, required=True)
+    expect = forms.CharField(widget=forms.Textarea, required=True)
         

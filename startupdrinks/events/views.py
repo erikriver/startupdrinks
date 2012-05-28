@@ -82,7 +82,8 @@ def update(request, template_name="update.html"):
     data = {
         'email':    profile.user.email,
         'fullname': profile.fullname,
-        'bio':      profile.bio
+        'bio':      profile.bio,
+        'expect':   profile.expect
     }
 
     form = UserForm(request.POST or None, initial=data)
@@ -98,6 +99,7 @@ def update(request, template_name="update.html"):
             profile.fullname = form.cleaned_data.get('fullname')
             profile.kind = form.cleaned_data.get('kind')
             profile.bio = form.cleaned_data.get('bio')
+            profile.expect = form.cleaned_data.get('expect')
             
             events = list(Event.objects.filter(active=True, site=site)[:1])
             profile.site = site

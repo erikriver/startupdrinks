@@ -10,7 +10,7 @@ THEME_CHOICES = (
         ('red',    _('Red')),
         ('green',  _('Green')),
         ('blue',    _('Blue')),
-        ('brown',    _('Brow')),
+        ('brown',    _('Brown')),
 )
 
 class SiteSettings(models.Model):
@@ -47,6 +47,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User)
     fullname = models.CharField(_('Full name'), max_length=100, null=True, blank=True)
     bio = models.TextField(_('Description'), blank=True)
+    expect = models.TextField(_('Expect'), blank=True)
     kind   = models.CharField(_('Profile'), max_length=50, choices=KIND_CHOICES, default='entrepreneur')
     network = models.CharField(max_length=255, blank=True, null=True)
     network_id = models.CharField(max_length=255, blank=True, null=True)
@@ -59,6 +60,10 @@ class Profile(models.Model):
         verbose_name = _("Profile")
         verbose_name_plural = _("Profiles")
         ordering = ['fullname']
+
+    def get_kind(self):
+        data = dict(KIND_CHOICES)
+        return data(self.kind)
     
     
 class Testimonial(models.Model):
