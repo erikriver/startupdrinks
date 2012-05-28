@@ -8,9 +8,10 @@
     <tr>
         <td>Red</td>
         <td>Foto</td>
-        <td>Nombre</td>
         <td>Perfil</td>
+        <td>Nombre</td>
         <td>Descripción</td>
+        <td>Expectativas del evento</td>
     </tr>
     <tbody>
     {% for profile  in object_list %}
@@ -29,6 +30,9 @@
         </td>
         <td>
             {{ profile.bio }}
+        </td>
+        <td>
+            {{ profile.expect }}
         </td>
     </tr>
     {% endfor %}

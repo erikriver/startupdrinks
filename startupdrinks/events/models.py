@@ -63,7 +63,7 @@ class Profile(models.Model):
 
     def get_kind(self):
         data = dict(KIND_CHOICES)
-        return data(self.kind)
+        return data[self.kind]
     
     
 class Testimonial(models.Model):
