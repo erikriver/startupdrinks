@@ -33,7 +33,7 @@ class SiteSettings(models.Model):
         return u"%s" % self.name
 
 KIND_CHOICES = (
-        ('entrepreneur',_('Emrpendedor')),
+        ('entrepreneur',_('Emprendedor')),
         ('startup',     _('Startup')),
         ('geek',        _('Geek')),
         ('coach',       _('Coach/Mentor')),
