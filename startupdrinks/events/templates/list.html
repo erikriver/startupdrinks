@@ -17,10 +17,19 @@
     {% for profile  in object_list %}
     <tr class="{% cycle 'alt' 'alt2' %}">
         <td>
-            <img src="{{ STATIC_URL }}images/{{ profile.network }}-64.png" height="32" width="32" />
+        {% if profile.network %}
+            <a href="#" class="zocial icon {{ profile.network }}">{{ profile.network }}</a>
+        {% else %}
+            <a href="#" class="zocial icon gmail">e-mail</a>
+        {% endif %}
+            {# <img src="{{ STATIC_URL }}images/{{ profile.network }}-64.png" height="32" width="32" /> #}
         </td>
         <td>
+        {% if profile.photo_url %}
             <img src="{{ profile.photo_url }}" height="48" width="48" />
+        {% else %}
+            <img src="{{ STATIC_URL }}images/user.png" height="48" width="48" />
+        {% endif %}
         </td>
         <td>
             {{ profile.get_kind }}

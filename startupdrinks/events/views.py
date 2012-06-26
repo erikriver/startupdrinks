@@ -1,3 +1,4 @@
+from uuid import uuid4
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render_to_response, redirect, render
@@ -53,7 +54,7 @@ class EventUserList(ListView):
 def user_update(sender, user, response, details, **kwargs):
     network = sender.name
     profile, created = Profile.objects.get_or_create(user=user)
-    profile.fullname = details['fullname']
+    profile.fullname = details.get('fullname','')
     profile.network_id = response['id']
     profile.network = network
     
@@ -66,7 +67,7 @@ def user_update(sender, user, response, details, **kwargs):
         profile.photo_url = response['profile_image_url']    
         
     if not user.email:
-        user.email = details['email']
+        user.email = details.get('email','')
     
     user.save()
     profile.save()
@@ -77,14 +78,17 @@ pre_update.connect(user_update)
 
 #@login_required
 def update(request, template_name="update.html"):
-
-    profile = request.user.get_profile()
-    data = {
-        'email':    profile.user.email,
-        'fullname': profile.fullname,
-        'bio':      profile.bio,
-        'expect':   profile.expect
-    }
+    data = {}
+    profile = None
+    
+    if request.user.is_authenticated():
+        profile = request.user.get_profile()    
+        data = {
+            'email':    profile.user.email,
+            'fullname': profile.fullname,
+            'bio':      profile.bio,
+            'expect':   profile.expect
+        }
 
     form = UserForm(request.POST or None, initial=data)
     
@@ -93,9 +97,15 @@ def update(request, template_name="update.html"):
     
     if request.method == 'POST':
         if form.is_valid():
-
-            profile.user.email = form.cleaned_data.get('email')
-
+            
+            email = form.cleaned_data.get('email')
+            
+            if profile is None:
+                username = uuid4().get_hex()[:8]
+                user = User.objects.create_user(username=username, email=email)
+                profile, created = Profile.objects.get_or_create(user=user)
+            
+            profile.user.email = email
             profile.fullname = form.cleaned_data.get('fullname')
             profile.kind = form.cleaned_data.get('kind')
             profile.bio = form.cleaned_data.get('bio')
