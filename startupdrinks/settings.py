@@ -4,7 +4,7 @@ import os.path
 abspath = lambda *p: os.path.abspath(os.path.join(*p))
 PROJECT_ROOT = abspath(os.path.dirname(__file__))
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
