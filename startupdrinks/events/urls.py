@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^update$', update, name='update',),
     url(r'', include('social_auth.urls')),
 
-    url(r'^admin$', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
     (r'^grappelli/', include('grappelli.urls')),
 )
 
