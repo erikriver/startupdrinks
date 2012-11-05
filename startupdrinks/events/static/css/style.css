@@ -259,7 +259,7 @@ ul.speaker li {
 	clear: both;
 }
 ul.speaker li .photo {
-	border: 1px solid #e0e0e0;
+	/*border: 1px solid #e0e0e0;*/
 	float: left;
 	padding: 1px;
 	margin-right: 10px;
