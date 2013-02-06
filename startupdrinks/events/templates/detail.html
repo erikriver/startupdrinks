@@ -150,8 +150,12 @@
     <div class="clear"></div>
     <!--buttons here-->
     <div id="button_wrapper">
+        {% if event.open %}
       <div class="button_1"><a href="/register" rel="facebox">Registrate al Evento</a></div>
       <div class="button_2"><a href="/list">Lista de Participantes</a></div>
+        {% else %}
+      <div class="button_1"><a href="#">Registro Cerrado</a></div>
+        {% endif %}
       <div class="clear"></div>
     </div>
     <div class="clear"></div>
