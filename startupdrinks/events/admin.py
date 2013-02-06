@@ -36,10 +36,18 @@ class PlacesAdmin(admin.ModelAdmin):
         map_fields.GeoLocationField: {'widget': TextInput(attrs={'readonly': 'readonly'})},
     }
 
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user_email','fullname','kind','bio','site')
+    list_filter = ('kind', 'site')
+    search_fields = ('fullname', 'bio')
+
+    def user_email(self, obj):
+        return obj.user.email
+
 admin.site.register(SiteSettings)
 admin.site.register(Organizer)
 admin.site.register(Testimonial)
-admin.site.register(Profile)
+admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Places, PlacesAdmin)
 
