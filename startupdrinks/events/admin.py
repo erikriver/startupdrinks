@@ -44,6 +44,9 @@ class ProfileAdmin(admin.ModelAdmin):
     def user_email(self, obj):
         return obj.user.email
 
+    def full_name(self, obj):
+        return obj.user.first_name + " " + obj.user.last_name
+
 admin.site.register(SiteSettings)
 admin.site.register(Organizer)
 admin.site.register(Testimonial)
