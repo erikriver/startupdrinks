@@ -6,7 +6,7 @@
 
 <h1>Información para conocerte</h1>
 
-<form action="{% url update %}" method="post">{% csrf_token %}
+<form action="{% url 'update' %}" method="post">{% csrf_token %}
     {{ form.non_field_errors }}
     <fieldset>
     <div class="clearfix">
