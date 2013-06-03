@@ -7,6 +7,7 @@ from django_google_maps import widgets as map_widgets
 from django_google_maps import fields as map_fields
 
 from .models import *
+from .actions import *
 
 class SponsorsInline(admin.TabularInline):
     model = Sponsor
@@ -37,15 +38,11 @@ class PlacesAdmin(admin.ModelAdmin):
     }
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user_email','fullname','kind','bio','site')
+    list_display = ('email','fullname','kind','bio','site')
     list_filter = ('kind', 'site')
     search_fields = ('fullname', 'bio')
+    actions = [export_xls]
 
-    def user_email(self, obj):
-        return obj.user.email
-
-    def full_name(self, obj):
-        return obj.user.first_name + " " + obj.user.last_name
 
 admin.site.register(SiteSettings)
 admin.site.register(Organizer)

@@ -1,8 +1,9 @@
+Django
 -e git://github.com/sehmaschine/django-grappelli.git#egg=django-grappelli
 -e git://github.com/madisona/django-google-maps.git#egg=django-google-maps
 
 #PIL
 sorl-thumbnail
-django-hosts
-django-social-auth
-
+django-hosts==0.4.2
+django-social-auth==0.7.8
+xlwt

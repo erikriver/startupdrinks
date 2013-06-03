@@ -64,6 +64,10 @@ class Profile(models.Model):
     def get_kind(self):
         data = dict(KIND_CHOICES)
         return data[self.kind]
+
+    @property
+    def email(self):
+        return self.user.email
     
     
 class Testimonial(models.Model):
